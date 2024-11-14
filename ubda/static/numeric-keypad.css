@@ -1,0 +1,45 @@
+.numeric-keypad,
+.numeric-keypad__key,
+.numeric-keypad__button {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.numeric-keypad {
+	background: #F4F4F4;
+	border: 1px solid;
+	display: none;
+	float: left;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	width: 150px;
+}
+	.numeric-keypad--show {
+		display: block;
+	}
+	
+	.numeric-keypad__key {
+		background: #CCC;
+		border: 1px solid;
+		display: block;
+		float: left;
+		text-align: center;
+		width: 49.33px;
+	}
+		.numeric-keypad__key--double {
+			width: 98.66px;
+		}
+
+	.numeric-keypad__button {
+		border: none;
+		color: #000;
+		display: block;
+		font-family: 'Helvetica Neue', Arial, sans-serif;
+		height: 49.33px;
+		line-height: 49.33px;
+		padding: 0;
+		text-decoration: none;
+		width: 100%;
+	}

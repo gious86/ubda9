@@ -1,0 +1,82 @@
+{% extends "base.html" %} {% block title %}new person{% endblock %} 
+{% block content %}
+<form method="POST">
+    <h3 align="center">new person</h3>
+
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstName"
+        name="firstName"
+        placeholder="Enter first name"
+      />
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          name="lastName"
+          placeholder="Enter last name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter email"
+        />
+      </div>
+    <div class="form-group">
+      <label for="pin">pin</label>
+      <input
+        type="text"
+        class="form-control"
+        id="pin"
+        name="pin"
+        placeholder="Enter pin"
+      />
+    </div>
+    <div class="form-group">
+      <label for="card_number">Card number</label>
+      <input
+        type="number"
+        class="form-control"
+        id="card_number"
+        name="card_number"
+        placeholder="Enter card number"
+      />
+    </div>
+    <div class="form-group">
+      <label for="accessLevel">Access level</label>
+      <select
+        class="form-control"
+        id="access_level"
+        name="access_level"
+        placeholder="Access level">
+        {% for a in access_levels %}
+        <option value={{a.id}}>{{a.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="valid_thru">Valid thru</label>
+      <input
+        type="date"
+        class="form-control"
+        id="valid_thru"
+        name="valid_thru"
+        placeholder="Enter date"
+      />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+{% endblock %}

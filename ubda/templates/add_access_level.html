@@ -1,0 +1,45 @@
+{% extends "base.html" %} {% block title %}New Access level{% endblock %} 
+{% block content %}
+<form method="POST">
+    <h3 align="center">New Access level</h3>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          placeholder="Enter name"
+        />
+      </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        name="description"
+        placeholder="Enter description"
+      />
+    </div>
+    {% for a in access_points %}
+    <br>
+    Access point: 
+    <label for="{{a.name}}">{{a.name}} ({{a.id}}) </label> 
+    <input type="checkbox" id="{{a.name}}" name="{{a.name}}" value="{{a.name}}">
+    <br>
+    {% for d in a.devices %}
+    Device {{d.name}} ({{d.mac}}):
+    {% for o in d.outputs %}
+    |<label for="{{o.id}}">{{o.name}}</label> 
+    <input type="checkbox" id="{{o.id}}" name="{{o.id}}" value="{{o.id}}">
+    {% endfor %}
+    <br>
+    {% endfor %}
+    <br><hr>
+    {% endfor %}
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

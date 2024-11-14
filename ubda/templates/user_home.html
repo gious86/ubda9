@@ -1,0 +1,13 @@
+{% extends "user_base.html" %} {% block title %}Home{% endblock %}
+{% block nav %}
+<a class="nav-item nav-link" id="change_password" href="/change_password">Change password</a>
+{% endblock %}
+{% block content%}
+<h3>Logged in as {{ user.user_name }}</h3>
+
+{% for ap in aps %}
+<a href="{{ url_for('access.url_access', id = ap.name) }}">{{ap.name}}</a></td>
+
+{% endfor %}
+
+{% endblock %}

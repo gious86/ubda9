@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block title %}New Access point{% endblock %} 
+{% block content %}
+<form method="POST">
+    <h3 align="center">New Access point</h3>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          placeholder="Enter name"
+        />
+      </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        name="description"
+        placeholder="Enter description"
+      />
+    </div>
+    {% for d in devices %}
+    <br>
+    <label for="{{d.mac}}">{{d.name}} ({{d.mac}}) </label> 
+    <input type="checkbox" id="{{d.mac}}" name="{{d.mac}}" value="{{d.mac}}"> 
+    <br>
+    {% endfor %}
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

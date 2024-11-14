@@ -1,0 +1,81 @@
+{% extends "base.html" %} {% block title %}New User{% endblock %} {% block
+    content %}
+    <form method="POST">
+      <h3 align="center">New User</h3>
+      <div class="form-group">
+        <label for="useraName">User Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="userName"
+          name="userName"
+          placeholder="Enter user name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          name="firstName"
+          placeholder="Enter first name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password1">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password1"
+          name="password1"
+          placeholder="Enter password"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password2">Password (Confirm)</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password2"
+          name="password2"
+          placeholder="Confirm password"
+        />
+      </div>
+      <div class="form-group">
+        <label for="card_number">Card number</label>
+        <input
+          type="number"
+          class="form-control"
+          id="card_number"
+          name="card_number"
+          placeholder="Enter card number"
+        />
+      </div>
+      <div class="form-group">
+        <label for="accessLevel">Access level</label>
+        <select
+          class="form-control"
+          id="access_level"
+          name="access_level"
+          placeholder="Access level">
+          {% for a in accessLevels %}
+          <option value={{a.id}}>{{a.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="valid_thru">Valid thru</label>
+        <input
+          type="date"
+          class="form-control"
+          id="valid_thru"
+          name="valid_thru"
+          placeholder="Enter date"
+        />
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% endblock %}
+    

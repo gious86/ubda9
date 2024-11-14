@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block title %}Access points{% endblock %} 
+{% block nav %}
+<a class="nav-item nav-link" id="addAccesPoint" href="/add_access_point">New Access point</a>
+{% endblock %}
+{% block content %}
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>
+<table style="width:100%">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>description</th>
+    <th> </th>
+    <th> </th>
+    <th> </th>
+    <th> </th>
+  </tr>
+  {% for a in access_points %}
+  <tr>
+    <td>{{ a.id }}</td>
+    <td>{{ a.name }}</td>
+    <td>{{ a.description }}</td>
+    <td><a href="{{ url_for('access.url_access', id = a.name) }}">Access URL</a></td>
+    <td><a href="{{ url_for('access.qr_generator', id = a.name) }}">QR</a></td>
+    <td><a href="{{ url_for('views.edit_access_point', id = a.id) }}">Edit</a></td>
+    <td><a href="{{ url_for('views.delete_access_point', id = a.id) }}">Delete</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

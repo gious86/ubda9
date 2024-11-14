@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block title %}Access levels{% endblock %} 
+{% block nav %}
+<a class="nav-item nav-link" id="addAccesLevel" href="/add_access_level">New Access level</a>
+{% endblock %}
+{% block content %}
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>
+<table style="width:100%">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>description</th>
+    <th> </th>
+    <th> </th>
+  </tr>
+  {% for a in access_levels %}
+  <tr>
+    <td>{{ a.id }}</td>
+    <td>{{ a.name }}</td>
+    <td>{{ a.description }}</td>
+    <td><a href="{{ url_for('views.edit_access_level', id = a.id) }}">Edit</a></td>
+    <td><a href="{{ url_for('views.delete_access_level', id = a.id) }}">Delete</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

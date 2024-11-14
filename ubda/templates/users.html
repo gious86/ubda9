@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block title %}Users{% endblock %} 
+{% block nav %}
+<a class="nav-item nav-link" id="addPerson" href="{{ url_for('user_views.new_user') }}">New user</a>
+{% endblock %}
+{% block content %}
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>
+<table style="width:100%">
+  <tr>
+    <th>User name</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Card number</th>
+    <th>Access level</th>
+    <th>Valid thru</th>
+    <th> </th>
+    <th> </th>
+    <th> </th>
+  </tr>
+  {% for usr in users %}
+  <tr>
+    <td>{{ usr.user_name }}</td>
+    <td>{{ usr.first_name }}</td>
+    <td>{{ usr.last_name }}</td>
+    <td>{{ usr.card_number }}</td>
+    <td>{{ usr.access_level }} - "{{ access_level_names[usr.access_level] }}"</td>
+    <td>{{ usr.valid_thru }}</td>
+    <td><a href="{{ url_for('user_views.user_access_log', id = usr.id) }}">Log</a></td>
+    <td><a href="{{ url_for('user_views.edit_user', id = usr.id) }}">Edit</a></td>
+    <td><a href="{{ url_for('user_views.delete_user', id = usr.id) }}">Delete</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block title %}Access log{% endblock %} 
+{% block content %}
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>
+<table style="width:100%">
+  <tr>
+    <th>User</th>
+    <th>Device</th>
+    <th>Content</th>
+    <th>Date time</th>
+  </tr>
+  {% for entry in log %}
+  <tr>
+    <td>{{ entry.user }} - {{ user_names[entry.user] }}</td>
+    <td>{{ entry.device }} - {{ device_names[entry.device] }}</td>
+    <td>{{ entry.content }}</td>
+    <td>{{ entry.date_time }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block title %}Devices{% endblock %} 
+{% block nav %} 
+<a class="nav-item nav-link" id="newDevice" href="/devices">New device</a>
+{% endblock %}
+{% block content %}
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>MAC</th>
+    <th>Model</th>
+    <th>Last seen</th>
+    <th> </th>
+    <th> </th>
+    <th> </th>
+    <th> </th>
+    <th> </th>
+  </tr>
+  {% for dev in devs %}
+  <tr>
+    <td>{{ dev.name }}</td>
+    <td>{{ dev.mac }}</td>
+    <td>{{ dev.model }}</td>
+    <td>{{ now - dev.last_seen }} seconds ago</td>
+    <td><a href="{{ url_for('views.device_log', id = dev.id) }}">Log</a></td>
+    <td><a href="{{ url_for('views.delete_device', id = dev.id) }}">Delete</a></td>
+    <td><a href="{{ url_for('views.edit_device', id = dev.id) }}">Edit</a></td>
+    <td><a href="{{ url_for('views.reset_device', id = dev.id) }}">Reset</a></td>
+    <td><a href="{{ url_for('views.sync_device', id = dev.id) }}">Sync</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

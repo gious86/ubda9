@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}Edit Access point{% endblock %} 
+{% block content %}
+<form method="POST">
+    <h3 align="center">Edit Access point</h3>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          placeholder="Enter name"
+          value = "{{ access_point.name }}"
+        />
+      </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        name="description"
+        placeholder="Enter description"
+        value = "{{ access_point.description }}"
+      />
+    </div>
+    {% for d in devices %}
+    <br>
+    <label for="{{d.mac}}">{{d.name}} ({{d.mac}}) </label> 
+    <input type="checkbox" id="{{d.mac}}" name="{{d.mac}}" value="{{d.mac}}"
+    {% if d in access_point.devices %} checked {% endif %}>
+    <br><hr>
+    {% endfor %}
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
