@@ -3,28 +3,28 @@ from flask import request
 from .models import Device, Output, User, Access_log, Access_level
 import json
 import time
-from flask_mqtt import Mqtt
+#from flask_mqtt import Mqtt
 
-mqtt = Mqtt(app)
+#mqtt = Mqtt(app)
 
 to_devices = {}
 
 online_devices = {}
 
-@mqtt.on_connect()
-def handle_connect(client, userdata, flags, rc):
-    print('connected to MQTT broker')
-    mqtt.subscribe('test')
+#@mqtt.on_connect()
+#def handle_connect(client, userdata, flags, rc):
+#    print('connected to MQTT broker')
+#    mqtt.subscribe('test')
 
-@mqtt.on_message()
-def handle_mqtt_message(client, userdata, message):
+#@mqtt.on_message()
+#def handle_mqtt_message(client, userdata, message):
     #data = dict(
     #    topic=message.topic,
     #    payload=message.payload.decode()
     #)
-    print('Received message on topic {}: {}, from:{}'
-              .format(message.topic, message.payload.decode(), client))
-    mqtt.publish('test1', 'pong')
+#    print('Received message on topic {}: {}, from:{}'
+#              .format(message.topic, message.payload.decode(), client))
+#    mqtt.publish('test1', 'pong')
     
 
 def activate_allowed_outputs(user, ap, method):
