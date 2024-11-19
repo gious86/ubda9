@@ -1,6 +1,7 @@
 {% extends "base.html" %} {% block title %}Users{% endblock %} 
 {% block nav %}
 <a class="nav-item nav-link" id="addPerson" href="{{ url_for('user_views.new_user') }}">New user</a>
+<a class="nav-item nav-link" id="importUsers" href="{{ url_for('user_views.import_users') }}">Import users</a>
 {% endblock %}
 {% block content %}
 

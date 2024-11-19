@@ -144,6 +144,16 @@ def send_cards(id):
     return send_file(buff, download_name='cards')
     
 
+@views.route('/get_cconfig/<string:id>')
+def send_config(id):
+    device = Device.query.filter_by(mac=id).first()
+    if not device :
+        abort(404)
+    conf = []
+    
+    return send_file(conf, download_name='conf.json')
+
+
 @views.route('/reset_device/<string:id>', methods=['GET', 'POST'])
 @login_required
 def reset_device(id):

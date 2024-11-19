@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from .models import User, Access_level, Device
 from . import db
 from datetime import datetime
-
+import csv
 
 user_views = Blueprint('user_views', __name__)
 
@@ -142,3 +142,29 @@ def user_access_log(id):
                                 device_names = device_names, 
                                 current_user = current_user, 
                                 user = user)
+    
+@user_views.route('/import_users', methods=['GET', 'POST'])
+@login_required
+def import_users():
+    if current_user.role != 'admin':    
+        flash('Restricted area', category='error')
+        return redirect(url_for('views.user_home'))
+    if request.method == 'POST':
+        f = request.files['file'] 
+        access_level = request.form.get('access_level')
+        filename=f.filename
+        f.save(filename)
+        with open(filename) as f:
+            csvr = csv.reader(f, delimiter=',')
+            for row in csvr:
+                #print(f'\t{row[0]} - {row[1]} - {row[2]}.')
+                new_user = User(user_name = row[0], 
+                            first_name = row[1], 
+                            password = generate_password_hash('11111111', method='sha256'),
+                            access_level = access_level,
+                            card_number = row[2],
+                            created_by = current_user.id)
+                db.session.add(new_user)
+                db.session.commit()
+    accessLevels = Access_level.query.all()
+    return render_template("import_users.html", accessLevels=accessLevels)

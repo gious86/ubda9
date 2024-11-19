@@ -11,6 +11,10 @@ device_models = {
         'outputs':1, 
         'inputs':1,
         },
+    'fumfli_pi':{
+        'outputs':1, 
+        'inputs':1,
+        },
     'fumfli_c3-16':{
         'outputs':16,
         'inputs':1,

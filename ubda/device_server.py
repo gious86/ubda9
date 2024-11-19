@@ -105,7 +105,7 @@ def dev_server(ws, id):
         while True:
             try:
                 ws.send('.')
-                data = ws.receive(1) 
+                data = ws.receive(0.5) 
                 if data:
                     print(f'from device "{device.mac}" - "{data}"')
                     device.last_seen = int(time.time())
