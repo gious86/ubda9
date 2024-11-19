@@ -102,10 +102,14 @@ def dev_server(ws, id):
                 db.session.add(device)
                 db.session.commit()
         #online_devices.update({device.id:device.mac}) 
+        c=0
         while True:
             try:
-                ws.send('.')
-                data = ws.receive(0.5) 
+                c=c+1
+                if c>10:
+                    c=0
+                    ws.send('.')
+                data = ws.receive(0.1) 
                 if data:
                     print(f'from device "{device.mac}" - "{data}"')
                     device.last_seen = int(time.time())

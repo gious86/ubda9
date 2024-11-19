@@ -22,13 +22,13 @@
   </style>
 <table style="width:100%">
   <tr>
-    <th>Device</th>
+    <th>Access point</th>
     <th>Content</th>
     <th>Date time</th>
   </tr>
   {% for entry in user.access_log %}
   <tr>
-    <td>{{ entry.device }} - "{{ device_names[entry.device] }}"</td>
+    <td>{{ entry.access_point }} - "{{ ap_names[entry.access_point] }}"</td>
     <td>{{ entry.content }}</td>
     <td>{{ entry.date_time }}</td>
   </tr>

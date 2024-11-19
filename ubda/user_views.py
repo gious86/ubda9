@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
-from .models import User, Access_level, Device
+from .models import User, Access_level, Access_point
 from . import db
 from datetime import datetime
 import csv
@@ -134,12 +134,12 @@ def user_access_log(id):
         flash(f'No user with id:{id}', category='error')
         return redirect(url_for('user_views.users'))
     else:
-        devices = Device.query.all()
-        device_names = {}
-        for device in devices:
-            device_names.update({device.id : device.name})
+        aps = Access_point.query.all()
+        ap_names = {}
+        for ap in aps:
+            ap_names.update({ap.id : ap.name})
         return render_template("user_access_log.html",
-                                device_names = device_names, 
+                                ap_names = ap_names, 
                                 current_user = current_user, 
                                 user = user)
     
