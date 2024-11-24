@@ -35,7 +35,11 @@
   </tr>
   {% for dev in devs %}
   <tr>
-    <td>{{ dev.name }}</td>
+    <td
+    {% if dev.id not in online_devices %}
+    bgcolor="red"
+    {% endif %}
+    >{{ dev.name }}</td>
     <td>{{ dev.mac }}</td>
     <td>{{ dev.model }}</td>
     <td>{{ now - dev.last_seen }} seconds ago</td>

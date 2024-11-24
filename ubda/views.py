@@ -5,7 +5,7 @@ from . import db
 import time
 from datetime import datetime
 from werkzeug.security import generate_password_hash
-from .device_server import send_reset_cmd, send_sync_cmd
+from .device_server import send_reset_cmd, send_sync_cmd, online_devices
 import io
 
 views = Blueprint('views', __name__)
@@ -86,7 +86,7 @@ def devices():
         return redirect(url_for('views.user_home'))
     devs = Device.query.all()
     now = int(time.time()) 
-    return render_template("devices.html", user = current_user, devs = devs, now = now)
+    return render_template("devices.html", user = current_user, devs = devs, now = now, online_devices = online_devices)
 
 
 @views.route('/edit_device/<string:id>', methods=['GET', 'POST'])

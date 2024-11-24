@@ -3,29 +3,10 @@ from flask import request
 from .models import Device, Output, User, Access_log, Access_level
 import json
 import time
-#from flask_mqtt import Mqtt
-
-#mqtt = Mqtt(app)
 
 to_devices = {}
 
-online_devices = {}
-
-#@mqtt.on_connect()
-#def handle_connect(client, userdata, flags, rc):
-#    print('connected to MQTT broker')
-#    mqtt.subscribe('test')
-
-#@mqtt.on_message()
-#def handle_mqtt_message(client, userdata, message):
-    #data = dict(
-    #    topic=message.topic,
-    #    payload=message.payload.decode()
-    #)
-#    print('Received message on topic {}: {}, from:{}'
-#              .format(message.topic, message.payload.decode(), client))
-#    mqtt.publish('test1', 'pong')
-    
+online_devices = {}   
 
 def activate_allowed_outputs(user, ap, method):
     log_entry = Access_log(access_point = ap.id, user = user.id)
@@ -101,7 +82,7 @@ def dev_server(ws, id):
                 device.last_seen = int(time.time())
                 db.session.add(device)
                 db.session.commit()
-        #online_devices.update({device.id:device.mac}) 
+        online_devices.update({device.id:device.mac}) 
         c=0
         while True:
             try:
@@ -141,7 +122,7 @@ def dev_server(ws, id):
                     ws.send(cmd)
                     to_devices.pop(device.id)
             except Exception as e:
-                #online_devices.pop(device.id)
+                online_devices.pop(device.id)
                 print(f'connection with "{id}" closed. e:{e}')
                 print(online_devices)
                 break
