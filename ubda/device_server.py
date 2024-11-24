@@ -82,7 +82,10 @@ def dev_server(ws, id):
                 device.last_seen = int(time.time())
                 db.session.add(device)
                 db.session.commit()
-        online_devices.update({device.id:device.mac}) 
+        if device.id not in online_devices:
+            online_devices.update({device.id:1})
+        else:
+            online_devices.update({device.id:online_devices[device.id]+1}) 
         c=0
         while True:
             try:
@@ -109,7 +112,7 @@ def dev_server(ws, id):
                                     print(f'no access - {person.first_name}')
                             else :
                                 log_entry = Access_log(device = device.id, 
-                                                        content = 'unknown card:' + card)
+                                                       content = 'unknown card:' + card)
                                 db.session.add(log_entry)
                                 db.session.commit()
                                 print(f'unknown card:{card}')
@@ -122,7 +125,7 @@ def dev_server(ws, id):
                     ws.send(cmd)
                     to_devices.pop(device.id)
             except Exception as e:
-                online_devices.pop(device.id)
+                online_devices.update({device.id:online_devices[device.id]-1})
                 print(f'connection with "{id}" closed. e:{e}')
                 print(online_devices)
                 break
