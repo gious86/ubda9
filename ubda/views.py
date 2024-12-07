@@ -18,64 +18,13 @@ def home():
         return redirect(url_for('views.user_home'))
     return render_template("home.html", user=current_user)
 
+
 @views.route('/user')
 @login_required
 def user_home():
     al = Access_level.query.filter_by(id=current_user.access_level).first()
     aps = al.access_points
     return render_template("user_home.html", user=current_user, aps=aps)
-
-
-# @views.route('/add_person', methods=['GET', 'POST'])
-# @login_required
-# def add_person():
-#     if request.method == 'POST':
-#         first_name = request.form.get('firstName')
-#         last_name = request.form.get('lastName')
-#         pin = request.form.get('pin')
-#         email = request.form.get('email')
-#         access_level = request.form.get('access_level')
-#         card_number = request.form.get('card_number')
-#         valid_thru = datetime.strptime(request.form.get('valid_thru'), '%Y-%m-%d')
-#         person = Person.query.filter_by(pin=pin).first()
-#         if person:
-#             flash('Pin already exists.', category='error')
-#         elif len(pin) < 4:
-#             flash('Too short pin', category='error')
-#         elif len(first_name) < 1:
-#             flash('Too short first name', category='error')
-#         else:
-#             new_person = Person(first_name=first_name, 
-#                                     last_name = last_name, 
-#                                     email = email,
-#                                     pin = pin,
-#                                     card_number = card_number,
-#                                     access_level = access_level,
-#                                     created_by = current_user.id,
-#                                     valid_thru = valid_thru)
-#             db.session.add(new_person)
-#             db.session.commit()
-#             flash('Person added!', category='success') 
-#             #return redirect(url_for('views.personnel')) 
-#     accessLevels = Access_level.query.all()
-#     return render_template("add_person.html", user=current_user, access_levels = accessLevels)
-
-
-# @views.route('/delete_person/<string:id>', methods=['GET', 'POST'])
-# @login_required
-# def delete_person(id):
-#     person = Person.query.filter_by(id=id).first()
-#     if not person :
-#         flash(f'No person with id:{id}', category='error')
-#         return redirect(url_for('views.personnel'))
-
-#     if request.method == 'POST':
-#         db.session.delete(person)
-#         db.session.commit()
-#         flash('Person deleted', category='success')
-#         return redirect(url_for('views.personnel'))
-#     return render_template("delete_person.html", user = current_user, person=person)
-
 
 
 @views.route('/devices')
@@ -86,7 +35,11 @@ def devices():
         return redirect(url_for('views.user_home'))
     devs = Device.query.all()
     now = int(time.time()) 
-    return render_template("devices.html", user = current_user, devs = devs, now = now, online_devices = online_devices)
+    return render_template("devices.html", 
+                           user = current_user, 
+                           devs = devs, 
+                           now = now, 
+                           online_devices = online_devices)
 
 
 @views.route('/edit_device/<string:id>', methods=['GET', 'POST'])
@@ -120,6 +73,7 @@ def delete_device(id):
         flash(f'No device with id:{id}', category='error')
         return redirect(url_for('views.devices'))
     if request.method == 'POST':
+        send_reset_cmd(device)##########################
         db.session.delete(device)
         db.session.commit()
         flash('Device deleted', category='success')

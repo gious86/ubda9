@@ -92,6 +92,8 @@ class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     model = db.Column(db.String(50))
+    sv = db.Column(db.String(50))
+    hv = db.Column(db.String(50))
     ip_address = db.Column(db.String(50))
     outputs = db.relationship('Output', cascade="all, delete")
     mac = db.Column(db.String(50), unique=True)

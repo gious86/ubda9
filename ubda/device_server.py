@@ -48,10 +48,14 @@ def dev_server(ws, id):
         ws.close()
         return
     else:
-        model = None        
+        model = None  
+        hv = None
+        sv = None      
         try:
             js = json.loads(data)
             model = js['model']
+            sv = js['sv']
+            hv = js['hv']
         except Exception as e:              
             print(f'exception:{e}')
         if not model:
@@ -66,7 +70,9 @@ def dev_server(ws, id):
                 device = Device(mac = id, 
                                 model = model,
                                 name = id, 
-                                last_seen = int(time.time()))
+                                last_seen = int(time.time()),
+                                sv = sv,
+                                hv = hv)
                 db.session.add(device)
                 db.session.commit()
                 n_of_outputs = device_models[model]['outputs']
@@ -80,6 +86,7 @@ def dev_server(ws, id):
             else :
                 print('known device')
                 device.last_seen = int(time.time())
+                device.sv = sv
                 db.session.add(device)
                 db.session.commit()
         if device.id not in online_devices:
@@ -90,13 +97,15 @@ def dev_server(ws, id):
         while True:
             try:
                 c=c+1
-                if c>10:
+                if c>100:
                     c=0
                     ws.send('.')
                 data = ws.receive(0.1) 
                 if data:
                     print(f'from device "{device.mac}" - "{data}"')
                     device.last_seen = int(time.time())
+                    db.session.add(device)
+                    db.session.commit()
                     js = ''
                     try:
                         js = json.loads(data)
@@ -117,15 +126,14 @@ def dev_server(ws, id):
                                 db.session.commit()
                                 print(f'unknown card:{card}')
                         #if something in js: do something
-                    db.session.add(device)
-                    db.session.commit()
                 if device.id in to_devices:
                     cmd = to_devices[device.id]
                     print(f'to device "{device.mac}" - "{cmd}"')
                     ws.send(cmd)
                     to_devices.pop(device.id)
             except Exception as e:
-                online_devices.update({device.id:online_devices[device.id]-1})
+                if device.id in online_devices:
+                    online_devices.update({device.id:online_devices[device.id]-1})
                 print(f'connection with "{id}" closed. e:{e}')
                 print(online_devices)
                 break

@@ -27,6 +27,7 @@
     <th>MAC</th>
     <th>Model</th>
     <th>Last seen</th>
+    <th>SV</th>
     <th> </th>
     <th> </th>
     <th> </th>
@@ -45,6 +46,7 @@
     <td>{{ dev.mac }}</td>
     <td>{{ dev.model }}</td>
     <td>{{ now - dev.last_seen }} seconds ago</td>
+    <td>{{ dev.sv }}</td>
     <td><a href="{{ url_for('views.device_log', id = dev.id) }}">Log</a></td>
     <td><a href="{{ url_for('views.delete_device', id = dev.id) }}">Delete</a></td>
     <td><a href="{{ url_for('views.edit_device', id = dev.id) }}">Edit</a></td>

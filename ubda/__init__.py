@@ -39,6 +39,8 @@ app.config['MQTT_USERNAME'] = ''
 app.config['MQTT_PASSWORD'] = ''
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 
+app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
+
 sock = Sock(app)
 
 db.init_app(app)
