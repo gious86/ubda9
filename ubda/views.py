@@ -98,14 +98,24 @@ def send_cards(id):
     return send_file(buff, download_name='cards')
     
 
-@views.route('/get_cconfig/<string:id>')
+@views.route('/get_config/<string:id>')
 def send_config(id):
     device = Device.query.filter_by(mac=id).first()
     if not device :
         abort(404)
-    conf = []
-    
-    return send_file(conf, download_name='conf.json')
+    buf = io.BytesIO()
+    buf.write('''{"aps":[
+        {"ssid":"shvancki","password":"11111111"},
+        {"ssid":"GREAN_WIFI","password":"wifipass"},
+        {"ssid":"OCH Lobby","password":"och2020!"},
+        {"ssid":"MyLePort","password":"myleport"}
+        ],
+    "server_address":"ws://192.168.1.104:5000/ws",
+    "ota_server_address":"https://static.ubda.ge",
+    "config_host":"http://192.168.1.104:5000",
+    "unlock_time" : 1000}'''.encode())
+    buf.seek(0)
+    return send_file(buf, download_name='conf.json')
 
 
 @views.route('/reset_device/<string:id>', methods=['GET', 'POST'])

@@ -99,6 +99,7 @@ class Device(db.Model):
     mac = db.Column(db.String(50), unique=True)
     last_seen = db.Column(db.Integer)
     access_point = db.Column(db.Integer, db.ForeignKey('access_point.id'))
+    config = db.Column(db.String(1024))
     
 class Output(db.Model):
     id = db.Column(db.Integer, primary_key=True)
