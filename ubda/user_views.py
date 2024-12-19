@@ -59,7 +59,7 @@ def new_user():
         else:
             new_user = User(user_name = user_name, 
                             first_name = first_name, 
-                            password = generate_password_hash(password1, method='sha256'),
+                            password = generate_password_hash(password1),
                             access_level = access_level,
                             card_number = card_number,
                             valid_thru = valid_thru,
@@ -160,7 +160,7 @@ def import_users():
                 #print(f'\t{row[0]} - {row[1]} - {row[2]}.')
                 new_user = User(user_name = row[0], 
                             first_name = row[1], 
-                            password = generate_password_hash('11111111', method='sha256'),
+                            password = generate_password_hash('11111111'),
                             access_level = access_level,
                             card_number = row[2],
                             created_by = current_user.id)
