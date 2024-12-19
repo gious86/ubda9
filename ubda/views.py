@@ -133,7 +133,7 @@ def update_fw(id):
         ###
         flash('OTA request sent', category='success')
         return redirect(url_for('views.devices'))
-    return render_template("OTA.html", user = current_user, device=device)
+    return render_template("ota.html", user = current_user, device=device)
 
 @views.route('/reset_device/<string:id>', methods=['GET', 'POST'])
 @login_required
