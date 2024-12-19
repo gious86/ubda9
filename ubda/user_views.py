@@ -19,26 +19,26 @@ def users():
     access_level_names = {}
     for access_level in access_levels:
         access_level_names.update({access_level.id : access_level.name})
-    users = current_user.created_users
+    #users = current_user.created_users
+    users = User.query.all()
     print (access_levels)
     return render_template("users.html", 
                             current_user = current_user, 
                             access_level_names = access_level_names, 
                             users = users )
 
+
 @user_views.route('/reset_all_passwords')
 @login_required
 def reset_passwords():
     if current_user.role != 'admin':    
         flash('Restricted area', category='error')
-        return redirect(url_for('views.user_home'))
-    
+        return redirect(url_for('views.user_home'))  
     users = User.query.all()
     for user in users :
         user.password = generate_password_hash('11111111')
         db.session.add(user)
-        db.session.commit()
-    
+        db.session.commit()   
     return redirect(url_for('vievs.home'))
 
 
@@ -55,6 +55,7 @@ def new_user():
         password2 = request.form.get('password2')
         access_level = request.form.get('access_level')
         card_number = request.form.get('card_number')
+        role = request.form.get('role')
         print('****')
         try:
             valid_thru = datetime.strptime(request.form.get('valid_thru'), '%Y-%m-%d')
@@ -72,13 +73,15 @@ def new_user():
                             access_level = access_level,
                             card_number = card_number,
                             valid_thru = valid_thru,
+                            role = role,
                             created_by = current_user.id)
             db.session.add(new_user)
             db.session.commit()
             flash('User added', category='success')
             return redirect(url_for('user_views.users'))
     accessLevels = Access_level.query.all()
-    return render_template("new_user.html", user=current_user, accessLevels = accessLevels)
+    roles = ["user","admin","manager"]
+    return render_template("new_user.html", user=current_user, accessLevels = accessLevels, roles = roles)
 
 
 @user_views.route('/edit_user/<string:id>', methods=['GET', 'POST'])
@@ -155,6 +158,7 @@ def user_access_log(id):
                                 current_user = current_user, 
                                 user = user)
     
+
 @user_views.route('/import_users', methods=['GET', 'POST'])
 @login_required
 def import_users():

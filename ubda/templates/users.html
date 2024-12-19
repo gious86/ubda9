@@ -29,7 +29,7 @@
     <th>Last name</th>
     <th>Card number</th>
     <th>Access level</th>
-    <th>Valid thru</th>
+    <th>Role</th>
     <th> </th>
     <th> </th>
     <th> </th>
@@ -41,7 +41,7 @@
     <td>{{ usr.last_name }}</td>
     <td>{{ usr.card_number }}</td>
     <td>{{ usr.access_level }} - "{{ access_level_names[usr.access_level] }}"</td>
-    <td>{{ usr.valid_thru }}</td>
+    <td>{{ usr.role }}</td>
     <td><a href="{{ url_for('user_views.user_access_log', id = usr.id) }}">Log</a></td>
     <td><a href="{{ url_for('user_views.edit_user', id = usr.id) }}">Edit</a></td>
     <td><a href="{{ url_for('user_views.delete_user', id = usr.id) }}">Delete</a></td>
