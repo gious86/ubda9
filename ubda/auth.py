@@ -78,8 +78,8 @@ def change_password():
         password2 = request.form.get('password2')
         if password1 != password2:
             flash("Passwords don't match.", category='error')
-        elif len(password1) < 6:
-            flash('Password must be at least 6 characters.', category='error')
+        elif len(password1) < 4:
+            flash('Password must be at least 4 characters.', category='error')
         else:
             user = current_user
             user.password = generate_password_hash(password1)

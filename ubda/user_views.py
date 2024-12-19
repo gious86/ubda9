@@ -26,6 +26,21 @@ def users():
                             access_level_names = access_level_names, 
                             users = users )
 
+@user_views.route('/reset_all_passwords')
+@login_required
+def reset_passwords():
+    if current_user.role != 'admin':    
+        flash('Restricted area', category='error')
+        return redirect(url_for('views.user_home'))
+    
+    users = User.query.all()
+    for user in users :
+        user.password = generate_password_hash('11111111')
+        db.session.add(user)
+        db.session.commit()
+    
+    return redirect(url_for('vievs.home'))
+
 
 @user_views.route('/new_user', methods=['GET', 'POST'])
 @login_required
@@ -48,14 +63,8 @@ def new_user():
         user = User.query.filter_by(user_name=user_name).first()
         if user:
             flash('User already exists.', category='error')
-        elif len(user_name) < 4:
-            flash('User name must be greater than 3 characters.', category='error')
         elif password1 != password2:
             flash("Passwords don't match.", category='error')
-        elif len(password1) < 5:
-            flash('Password must be at least 5 characters.', category='error')
-        elif valid_thru is None:
-            flash('No date.', category='error')
         else:
             new_user = User(user_name = user_name, 
                             first_name = first_name, 
@@ -88,7 +97,10 @@ def edit_user(id):
         email = request.form.get('email')
         access_level_id = request.form.get('access_level')
         card_number = request.form.get('card_number')
-        valid_thru = datetime.strptime(request.form.get('valid_thru'), '%Y-%m-%d')
+        try:
+            valid_thru = datetime.strptime(request.form.get('valid_thru'), '%Y-%m-%d')
+        except:
+            valid_thru = None
         user.first_name = first_name
         user.last_name = last_name
         user.email = email
