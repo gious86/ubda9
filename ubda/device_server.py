@@ -35,6 +35,9 @@ def send_reset_cmd(device):
 def send_sync_cmd(device):
     to_devices.update({device.id:'{"cmd":"sync"}'}) 
 
+def send_ota_cmd(device):
+    to_devices.update({device.id:'{"cmd":"ota", "ota_url":"https://static.ubda.ge/'+device.model+'/fw.bin"}'}) 
+
 @sock.route('/ws/<string:id>')
 def dev_server(ws, id):
     client_ip = request.remote_addr

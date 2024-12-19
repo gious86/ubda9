@@ -5,7 +5,7 @@ from . import db
 import time
 from datetime import datetime
 from werkzeug.security import generate_password_hash
-from .device_server import send_reset_cmd, send_sync_cmd, online_devices
+from .device_server import send_reset_cmd, send_sync_cmd, send_ota_cmd, online_devices
 import io
 
 views = Blueprint('views', __name__)
@@ -117,6 +117,23 @@ def send_config(id):
     buf.seek(0)
     return send_file(buf, download_name='conf.json')
 
+@views.route('/update_fw/<string:id>', methods=['GET', 'POST'])
+@login_required
+def update_fw(id):
+    if current_user.role != 'admin':    
+        flash('Restricted area', category='error')
+        return redirect(url_for('views.user_home'))
+    device = Device.query.filter_by(id=id).first()
+    if not device :
+        flash(f'No device with id:{id}', category='error')
+        return redirect(url_for('views.devices'))
+    if request.method == 'POST':
+        ###send reset command
+        send_ota_cmd(device)
+        ###
+        flash('OTA request sent', category='success')
+        return redirect(url_for('views.devices'))
+    return render_template("OTA.html", user = current_user, device=device)
 
 @views.route('/reset_device/<string:id>', methods=['GET', 'POST'])
 @login_required
