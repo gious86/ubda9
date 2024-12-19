@@ -110,9 +110,9 @@ def send_config(id):
         {"ssid":"OCH Lobby","password":"och2020!"},
         {"ssid":"MyLePort","password":"myleport"}
         ],
-    "server_address":"ws://192.168.1.104:5000/ws",
+    "server_address":"wss://ubda.ge/ws",
     "ota_server_address":"https://static.ubda.ge",
-    "config_host":"http://192.168.1.104:5000",
+    "config_host":"http://ubda.ge",
     "unlock_time" : 1000}'''.encode())
     buf.seek(0)
     return send_file(buf, download_name='conf.json')

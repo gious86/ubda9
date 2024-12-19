@@ -58,7 +58,7 @@ def sign_up():
                             first_name=first_name,
                             role = 'admin', 
                             password=generate_password_hash(
-                            password1, method='sha256'))
+                            password1))
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
@@ -82,7 +82,7 @@ def change_password():
             flash('Password must be at least 6 characters.', category='error')
         else:
             user = current_user
-            user.password = generate_password_hash(password1, method='sha256')
+            user.password = generate_password_hash(password1)
             db.session.add(user)
             db.session.commit()
             flash('Password changed!', category='success')
