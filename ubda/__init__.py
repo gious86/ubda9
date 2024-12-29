@@ -23,6 +23,10 @@ device_models = {
     'fumfli_c3-16':{
         'outputs':16,
         'inputs':1,
+        },
+    'fumfli_s3':{
+        'outputs':1,
+        'inputs':1,
         }
 }
 db = SQLAlchemy()
