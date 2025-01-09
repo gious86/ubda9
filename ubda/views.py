@@ -106,6 +106,7 @@ def send_config(id):
     buf = io.BytesIO()
     buf.write('''{"aps":[
         {"ssid":"shvancki","password":"11111111"},
+        {"ssid":"10 e block guest","password":""},
         {"ssid":"GREAN_WIFI","password":"wifipass"},
         {"ssid":"OCH Lobby","password":"och2020!"},
         {"ssid":"MyLePort","password":"myleport"}
