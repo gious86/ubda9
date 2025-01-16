@@ -15,27 +15,6 @@ accessLevel_accessPoint = db.Table('accessLevel_accessPoint',
                                   )
 
 
-# accessLevel_person = db.Table('accessLevel_person',
-#                                   db.Column('person_id', db.Integer, db.ForeignKey('person.id')),
-#                                   db.Column('access_level_id', db.Integer, db.ForeignKey('access_level.id'))
-#                                   )
-
-
-# class Person(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     first_name = db.Column(db.String(50))
-#     last_name = db.Column(db.String(50))
-#     email = db.Column(db.String(50))
-#     pin = db.Column(db.String(10), unique=True)
-#     card_number = db.Column(db.Integer)
-#     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
-#     department = db.Column(db.Integer, db.ForeignKey('department.id'))
-#     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     #access_levels = db.relationship('Access_level', secondary=accessLevel_person, back_populates='personnel'
-#     access_level = db.Column(db.Integer, db.ForeignKey('access_level.id'))
-#     valid_thru = db.Column(db.DateTime(timezone=True))
-#     log = db.relationship('Access_log')
-
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

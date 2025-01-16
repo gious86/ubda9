@@ -7,6 +7,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash
 from .device_server import send_reset_cmd, send_sync_cmd, send_ota_cmd, online_devices
 import io
+import json
 
 views = Blueprint('views', __name__)
 
@@ -54,10 +55,19 @@ def edit_device(id):
         return redirect(url_for('views.devices'))
     if request.method == 'POST':
         name = request.form.get('Name')
-        device.name = name
-        db.session.add(device)
-        db.session.commit()
-        flash('Device updated', category='success')
+        config = request.form.get('Config')
+        try:
+            j = json.loads(config)
+        except:
+            j = None
+        if j is not None: #
+            device.name = name
+            device.config = config
+            db.session.add(device)
+            db.session.commit()
+            flash('Device updated', category='success')
+        else:
+            flash('Wrong format, config must be json', category='error')
         return redirect(url_for('views.devices'))
     return render_template("edit_device.html", user = current_user, device = device)
 
@@ -104,17 +114,20 @@ def send_config(id):
     if not device :
         abort(404)
     buf = io.BytesIO()
-    buf.write('''{"aps":[
-        {"ssid":"shvancki","password":"11111111"},
-        {"ssid":"10 e block guest","password":""},
-        {"ssid":"GREAN_WIFI","password":"wifipass"},
-        {"ssid":"OCH Lobby","password":"och2020!"},
-        {"ssid":"MyLePort","password":"myleport"}
-        ],
-    "server_address":"wss://ubda.ge/ws",
-    "ota_server_address":"https://static.ubda.ge",
-    "config_host":"http://ubda.ge",
-    "unlock_time" : 1000}'''.encode())
+    if device.config is None:
+        buf.write('''{"aps":[
+            {"ssid":"shvancki","password":"11111111"},
+            {"ssid":"10 e block guest","password":""},
+            {"ssid":"GREAN_WIFI","password":"wifipass"},
+            {"ssid":"OCH Lobby","password":"och2020!"},
+            {"ssid":"MyLePort","password":"myleport"}
+            ],
+        "server_address":"wss://ubda.ge/ws",
+        "ota_server_address":"https://static.ubda.ge",
+        "config_host":"http://ubda.ge",
+        "unlock_time" : 1000}'''.encode())
+    else:
+        buf.write(device.config.encode())
     buf.seek(0)
     return send_file(buf, download_name='conf.json')
 
