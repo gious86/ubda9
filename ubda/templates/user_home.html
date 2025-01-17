@@ -7,7 +7,7 @@
 
 
 {% for ap in aps %}
-<a href = "{{ url_for('access.url_access', id = ap.name) }}" class="btn btn-primary btn-lg btn-block">
+<a href = "{{ url_for('access.url_access', id = ap.name) }}" class="btn btn-success btn-lg btn-block">
 <h3>{{ap.name}}</h3>
 </a> 
 {% endfor %}

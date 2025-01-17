@@ -1,10 +1,11 @@
-from flask import Blueprint, render_template, flash, request, redirect, url_for
+from flask import Blueprint, render_template, flash, request, redirect, url_for, send_file
 from flask_login import current_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 from .models import User, Access_level, Access_point
 from . import db
 from datetime import datetime
 import csv
+import io
 
 user_views = Blueprint('user_views', __name__)
 
@@ -159,6 +160,25 @@ def user_access_log(id):
                                 user = user)
     
 
+@user_views.route('/export_users', methods=['GET', 'POST'])
+@login_required
+def export_users():
+    if current_user.role != 'admin':    
+        flash('Restricted area', category='error')
+        return redirect(url_for('views.user_home'))
+    users = User.query.all()
+    n = len(users)
+    if request.method == 'POST':
+        buf = io.BytesIO()
+        for user in users:
+            buf.write(f"{user.user_name}, {user.password}, {user.first_name}, {user.card_number}, {user.role}\n".encode())
+
+        buf.seek(0)
+        return send_file(buf, download_name='users.csv')
+
+    return render_template("export_users.html", n=n)
+
+
 @user_views.route('/import_users', methods=['GET', 'POST'])
 @login_required
 def import_users():
@@ -170,17 +190,26 @@ def import_users():
         access_level = request.form.get('access_level')
         filename=f.filename
         f.save(filename)
+        duplicate = 0
+        added = 0
         with open(filename) as f:
             csvr = csv.reader(f, delimiter=',')
             for row in csvr:
                 #print(f'\t{row[0]} - {row[1]} - {row[2]}.')
                 new_user = User(user_name = row[0], 
-                            first_name = row[1], 
-                            password = generate_password_hash('11111111'),
+                            password = row[1], #generate_password_hash('11111111'),
+                            first_name = row[2], 
+                            card_number = row[3],
+                            role = row[4],
                             access_level = access_level,
-                            card_number = row[2],
                             created_by = current_user.id)
-                db.session.add(new_user)
-                db.session.commit()
+                user = User.query.filter_by(user_name=new_user.user_name).first()
+                if user:
+                    duplicate += 1
+                else:
+                    db.session.add(new_user)
+                    db.session.commit() 
+                    added += 1
+            flash(f"{added} users added, {duplicate} dulpicates found", category='success')
     accessLevels = Access_level.query.all()
     return render_template("import_users.html", accessLevels=accessLevels)
