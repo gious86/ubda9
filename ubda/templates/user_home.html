@@ -5,13 +5,12 @@
 {% block content%}
 <h3>Logged in as {{ user.user_name }}</h3>
 
-{% for ap in aps %}
 
-<br>
-<a href = "{{ url_for('access.url_access', id = ap.name) }}">
-    <button type="submit" class="btn btn-primary"><h3>{{ap.name}}</h3></button>
+{% for ap in aps %}
+<a href = "{{ url_for('access.url_access', id = ap.name) }}" class="btn btn-primary btn-lg btn-block">
+<h3>{{ap.name}}</h3>
 </a> 
-<br>
 {% endfor %}
+
 
 {% endblock %}
