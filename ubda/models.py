@@ -79,7 +79,13 @@ class Device(db.Model):
     last_seen = db.Column(db.Integer)
     access_point = db.Column(db.Integer, db.ForeignKey('access_point.id'))
     config = db.Column(db.String(1024))
+    log = db.relationship('Device_log')
     
+class Device_log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(200))
+    device = db.Column(db.Integer, db.ForeignKey('device.id'))
+
 class Output(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))

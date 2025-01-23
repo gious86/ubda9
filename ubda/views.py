@@ -197,13 +197,7 @@ def device_log(id):
         flash(f'No device with id:{id}', category='error')
         return redirect(url_for('views.devices'))
     else:
-        users = User.query.all()
-        user_names = {}
-        for user in users:
-            user_names.update({user.id : f'{user.user_name}({user.first_name} {user.last_name})'})
         return render_template("device_log.html", 
-                                user = current_user, 
-                                user_names = user_names,
                                 device= device)
 
 

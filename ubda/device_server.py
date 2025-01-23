@@ -1,6 +1,6 @@
 from . import db, sock, device_models, app
 from flask import request
-from .models import Device, Output, User, Access_log, Access_level
+from .models import Device, Output, User, Access_log, Access_level, Device_log
 import json
 import time
 
@@ -92,6 +92,9 @@ def dev_server(ws, id):
                 device.sv = sv
                 db.session.add(device)
                 db.session.commit()
+        log_entry = Device_log(device = device.id, content = "connected")
+        db.session.add(log_entry)
+        db.session.commit()
         if device.id not in online_devices:
             online_devices.update({device.id:1})
         else:
@@ -137,6 +140,9 @@ def dev_server(ws, id):
             except Exception as e:
                 if device.id in online_devices:
                     online_devices.update({device.id:online_devices[device.id]-1})
-                print(f'connection with "{id}" closed. e:{e}')
-                print(online_devices)
+                #print(f'connection with "{id}" closed. e:{e}')
+                #print(online_devices)
+                log_entry = Device_log(device = device.id, content = "disconnected")
+                db.session.add(log_entry)
+                db.session.commit()
                 break

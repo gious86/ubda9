@@ -22,13 +22,11 @@
   </style>
 <table style="width:100%">
   <tr>
-    <th>User</th>
     <th>Content</th>
     <th>Date time</th>
   </tr>
   {% for entry in device.log %}
   <tr>
-    <td>{{ entry.user }} - {{ user_names[entry.user] }}</td>
     <td>{{ entry.content }}</td>
     <td>{{ entry.date_time }}</td>
   </tr>

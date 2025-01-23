@@ -189,7 +189,7 @@ def import_users():
         f = request.files['file'] 
         access_level = request.form.get('access_level')
         filename=f.filename
-        f.save(filename)
+        f.save(filename) #რატომ ვინახავ?
         duplicate = 0
         added = 0
         with open(filename) as f:
