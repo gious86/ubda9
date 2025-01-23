@@ -85,6 +85,7 @@ class Device_log(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200))
     device = db.Column(db.Integer, db.ForeignKey('device.id'))
+    date_time = db.Column(db.DateTime(timezone=True), default=func.now())
 
 class Output(db.Model):
     id = db.Column(db.Integer, primary_key=True)
