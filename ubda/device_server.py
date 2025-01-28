@@ -77,13 +77,15 @@ def dev_server(ws, id):
                                 sv = sv,
                                 hv = hv)
                 db.session.add(device)
-                db.session.commit()
+                #db.session.commit()
                 n_of_outputs = device_models[model]['outputs']
                 for n in range(1, n_of_outputs+1):
                     output = Output(device = device.id, 
                                     name = f'{id} - {n}',
                                     n=n)
                     db.session.add(output)
+                log_entry = Device_log(device = device.id, content = f"added to db({device.mac})")
+                db.session.add(log_entry)
                 db.session.commit()
                 print(f'device with id:{id} added to DB')
             else :
@@ -142,7 +144,7 @@ def dev_server(ws, id):
                     online_devices.update({device.id:online_devices[device.id]-1})
                 #print(f'connection with "{id}" closed. e:{e}')
                 #print(online_devices)
-                log_entry = Device_log(device = device.id, content = "disconnected")
+                log_entry = Device_log(device = device.id, content = f"disconnected, e:{e}")
                 db.session.add(log_entry)
                 db.session.commit()
                 break
