@@ -125,7 +125,7 @@ def send_config(id):
         "server_address":"wss://ubda.ge/ws",
         "ota_server_address":"https://static.ubda.ge",
         "config_host":"http://ubda.ge",
-        "unlock_time" : 1000},
+        "unlock_time" : 1000,
         "ota_filenames":[
         {"file":"boot.py"},
         {"file":"main.py"},
