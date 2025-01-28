@@ -133,7 +133,8 @@ def send_config(id):
         {"file":"wiegand.py"},
         {"file":"ota.py"},
         {"file":"config.json"}
-        ]''').encode()
+        ],
+        "model":"fumfli_c3"''').encode()
     else:
         buf.write(device.config.encode())
     buf.seek(0)
