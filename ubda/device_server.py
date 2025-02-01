@@ -77,7 +77,7 @@ def dev_server(ws, id):
                                 sv = sv,
                                 hv = hv)
                 db.session.add(device)
-                #db.session.commit()
+                db.session.commit()
                 n_of_outputs = device_models[model]['outputs']
                 for n in range(1, n_of_outputs+1):
                     output = Output(device = device.id, 
