@@ -84,6 +84,7 @@ def dev_server(ws, id):
                                     name = f'{id} - {n}',
                                     n=n)
                     db.session.add(output)
+                db.session.commit()
                 log_entry = Device_log(device = device.id, content = f"added to db({device.mac})")
                 db.session.add(log_entry)
                 db.session.commit()
